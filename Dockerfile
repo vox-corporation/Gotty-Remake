@@ -11,6 +11,10 @@ RUN apt-get -y update && \
     | tar xzC /usr/local/bin && \
     apt-get purge --auto-remove -y curl && \
     apt-get clean && \
+    echo 'root:root' | chpasswd && \
+    printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d && \
+    apt-get install -y systemd systemd-sysv dbus dbus-user-session && \
+    printf "systemctl start systemd-logind" >> /etc/profile
     rm -rf /var/lib/apt/lists*
 
 
